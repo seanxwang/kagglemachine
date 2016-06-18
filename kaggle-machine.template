@@ -1,0 +1,59 @@
+{
+   "AWSTemplateFormatVersion" : "2010-09-09",
+   "Description" : "CloudFormation stack to create a data science lab in a box, using kaggle-machine AMI. For usage see ",
+   
+   "Parameters" : {
+	  "KeyPair": {
+		  "Type":"AWS::EC2::KeyPair::KeyName",
+		  "Description":"Choose an existing key pair to launch the instance"
+	  },
+	  "InstanceType" : {
+		  "Description" : "Amazon EC2 instance type",
+		  "Type" : "String",
+		  "Default" : "t2.micro",
+		  "AllowedValues" : [ "t2.micro", "m1.small", "m1.medium", "m1.large", "m1.xlarge", "m2.xlarge", "m2.2xlarge", "m2.4xlarge", "c1.medium", "c1.xlarge"]
+	  }
+    },
+	
+	"Mappings":{
+		"RegionMap" : {
+			"us-east-1"      : { "64" : "ami-7228dc1f"},
+			"us-west-1"      : { "64" : "ami-2fd99c4f"}
+		}
+	},
+	
+    "Resources" : {
+	  "InstanceSG" : {
+		  "Type" : "AWS::EC2::SecurityGroup",
+		  "Properties" : {
+			"GroupDescription" : "Enable access to the Kaggle Machine",
+			"SecurityGroupIngress" : [
+			   { "IpProtocol" : "tcp", "FromPort" : "8787",  "ToPort" : "8787",  "CidrIp" : "0.0.0.0/0"} ,
+			   { "IpProtocol" : "tcp", "FromPort" : "9999",  "ToPort" : "9999",  "CidrIp" : "0.0.0.0/0"} ,
+			   { "IpProtocol" : "tcp", "FromPort" : "22",  "ToPort" : "22",  "CidrIp" : "0.0.0.0/0"} ]
+		  }
+	  },
+      "KaggleMachine" : {
+         "Type" : "AWS::EC2::Instance",
+         "Properties" : {
+			"ImageId" : { "Fn::FindInMap": [ "RegionMap", { "Ref" : "AWS::Region" }, "64"] },
+			"SecurityGroupIds" : [{ "Ref" : "InstanceSG" }],
+			"KeyName" : { "Ref": "KeyPair" },
+			"InstanceType" : { "Ref" : "InstanceType" },
+			"Tags" : [ {"Key" : "Name", "Value" : "KaggleMachine" } ]
+         }
+      }
+   },
+   
+   "Outputs" : {
+      "KaggleMachineDNS" : {
+         "Description" : "Access Kaggle Machine use public DNS",
+         "Value" : {
+            "Fn::GetAtt" : [
+               "KaggleMachine",
+               "PublicDnsName"
+            ]
+         }
+      }
+   }
+}
