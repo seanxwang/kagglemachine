@@ -1,6 +1,6 @@
 {
    "AWSTemplateFormatVersion" : "2010-09-09",
-   "Description" : "CloudFormation stack to create a data science lab in a box, using kaggle-machine AMI. AMI available in us-east-1 and us-west-1. To use Kaggle Machine see https://github.com/seanxwang/kagglemachine",
+   "Description" : "CloudFormation stack to create a data science lab in a box, using kaggle-machine AMI. AMI available in us-east-1 and us-west-2. To use Kaggle Machine see https://github.com/seanxwang/kagglemachine",
    
    "Parameters" : {
 	  "KeyPair": {
@@ -17,8 +17,8 @@
 	
 	"Mappings":{
 		"RegionMap" : {
-			"us-east-1"      : { "64" : "ami-7228dc1f"},
-			"us-west-1"      : { "64" : "ami-2fd99c4f"}
+			"us-east-1"      : { "64" : "ami-715ccb66"},
+			"us-west-2"      : { "64" : "ami-51c20c31"}
 		}
 	},
 	
