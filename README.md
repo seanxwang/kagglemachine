@@ -7,7 +7,7 @@ An AWS AMI which provides “data science server in a box” with current open s
 ##How to build kaggle machine
 Use the CloudFormation template to launch your Kaggle Machine.
 Download the template, launch stack by selecting instance type and using your existing key pair.
-Note the AMIs are currently available in us-east-1 and us-west-1. For other regions, you can build your machine in the above two regions, and copy AMI across regions.
+Note the AMIs are currently available in us-east-1 and us-west-2. For other regions, you can build your machine in the above two regions, and copy AMI across regions.
 
 ![Kaggle Machine Stack](/kagglestack.png?raw=true "Kaggle Machine Stack")
 
